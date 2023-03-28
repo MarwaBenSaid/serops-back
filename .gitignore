@@ -136,11 +136,11 @@ celerybeat.pid
 .env
 .venv
 env/
-venv/
+.venv/
 ENV/
 env.bak/
 venv.bak/
-
+*.sqlite3
 # Spyder project settings
 .spyderproject
 .spyproject
