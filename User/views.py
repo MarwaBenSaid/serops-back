@@ -3,9 +3,9 @@ from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from User.models import User
+from rest_framework.permissions import IsAdminUser ,IsAuthenticated
 import jwt , datetime
-
-# Create your views here.
+# Registration function
 class Register(APIView):
     def post(self, request):
         if  User.objects.filter(email=request.data['email']).exists():
@@ -14,8 +14,9 @@ class Register(APIView):
             serialzer = UserSerializer(data=request.data)
             serialzer.is_valid(raise_exception=True)
             serialzer.save()
-        
         return Response(serialzer.data)
+    
+# Login function
 class Login(APIView):
     def post(self, request):
         email = request.data['email']
@@ -44,7 +45,23 @@ class Login(APIView):
             }
         }
         return response
-    
+# Getting Connected user info
+
+class activeUser(APIView):
+    def get(self,request):
+        permission_classes = [IsAdminUser]
+        token = request.COOKIES.get('jwt')
+        if not token:
+            raise AuthenticationFailed('token_expired')
+        try:
+            payload = jwt.decode(token, 'secret', algorithms='HS256')
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('token_expired')
+        user = User.objects.filter(id=payload['id']).first()
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data)
+# logout function
 class Logout(APIView):
     def post(self,request):
         response = Response()
