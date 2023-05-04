@@ -1,5 +1,5 @@
 """
-WSGI config for serops_back project.
+WSGI config for AuthApi project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
