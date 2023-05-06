@@ -3,8 +3,8 @@ from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
-from Organisations.models import  Orgnisation
-from Organisations.serializers import  OrgnisationSerializer
+from Organisations.models import  Organisations
+from Organisations.serializers import  OrganisationSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes
@@ -19,7 +19,7 @@ class RegisterView(APIView):
     def post(self, request):
         #return Response([request.data.get('user'),request.data.get('organisation')])
         serializer = UserSerializer(data=request.data.get('user'))
-        orgnisation_serializer = OrgnisationSerializer(data=request.data.get('organisation'))
+        orgnisation_serializer = OrganisationSerializer(data=request.data.get('organisation'))
         if serializer.is_valid():
             if orgnisation_serializer.is_valid():
                 user_orgnisation =orgnisation_serializer.save()
@@ -69,6 +69,6 @@ class LogoutView(APIView):
 @permission_classes([IsAuthenticated])
 class ActiveView(APIView):
     def get(self,request):
-        return Response({
-            "ddjdj":"dhdhdhd"
-        },status=status.HTTP_200_OK)
+        user = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response({ "user":serializer.data },status=status.HTTP_200_OK)

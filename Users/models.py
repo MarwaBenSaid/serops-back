@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from Organisations.models import Orgnisation
+from Organisations.models import Organisations
 from model_utils import Choices
 
 # Create your models here.
@@ -17,7 +17,7 @@ class User(AbstractUser):
     ROLE = Choices('admin','devops','developer')
     role = models.CharField(choices=ROLE,default=ROLE.admin,max_length=255)
     is_active = models.BooleanField(default=False)
-    organisation = models.ForeignKey(Orgnisation,on_delete=models.CASCADE)
+    organisation = models.ForeignKey(Organisations,on_delete=models.CASCADE)
     class Meta:
         db_table = 'Users'
 

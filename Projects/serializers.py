@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Organisations
+from .models import Projects
 
-class OrganisationSerializer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Organisations
-        fields = ['name','website']
+        model = Projects
+        fields = ['id','name','type','organisation']
     def create(self,validated_data):
         instance = self.Meta.model(**validated_data)
         instance.save()
