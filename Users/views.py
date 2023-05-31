@@ -13,7 +13,6 @@ from rest_framework import  status,authentication
 from django.contrib import auth
 from rest_framework.response import Response
 
-
 @permission_classes([AllowAny])
 class RegisterView(APIView):
     def post(self, request):
@@ -29,7 +28,8 @@ class RegisterView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(orgnisation_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @permission_classes([AllowAny])
 class LoginView(APIView):

@@ -8,3 +8,5 @@ urlpatterns = [
     path('profile',ActiveView.as_view())
 
 ]
+
+
